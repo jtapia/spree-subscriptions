@@ -3,9 +3,9 @@
 
     <div class='col-md-6'>
       <%= f.field_container :product, class: ['form-group'] do %>
-        <%= f.label :magazine_id, Spree.t(:product) %><br />
-        <%= f.select :magazine_id, @products, {}, class: 'select2' %>
-        <%= f.error_message_on :magazine %>
+        <%= f.label :product_id, Spree.t(:product) %><br />
+        <%= f.select :product_id, @products, {}, class: 'select2' %>
+        <%= f.error_message_on :product %>
       <% end %>
     </div>
 

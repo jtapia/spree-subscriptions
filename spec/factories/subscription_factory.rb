@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :subscription, class: Spree::Subscription do
     # associations:
-    magazine { FactoryGirl.create(:subscribable_product) }
+    product { FactoryGirl.create(:subscribable_product) }
     ship_address { FactoryGirl.create(:address) }
     remaining_issues 4
     email "johnny@rocket.com"

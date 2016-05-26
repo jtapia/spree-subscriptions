@@ -8,7 +8,7 @@ describe Spree::Subscription do
 
   context "when shipping subscriptions" do
     let(:subscription) { create(:paid_subscription) }
-    let(:issue) { create(:issue, magazine: subscription.magazine) }
+    let(:issue) { create(:issue, product: subscription.product) }
 
     it "should ship issues inside a transaction" do
       subscription.should_receive :transaction
@@ -38,7 +38,7 @@ describe Spree::Subscription do
 
   context "when a subscription is ending" do
     let(:subscription) { create(:ending_subscription) }
-    let(:issue) { create(:issue, magazine: subscription.magazine) }
+    let(:issue) { create(:issue, product: subscription.product) }
 
     context "without delayed_job" do
       before(:all) do
@@ -80,12 +80,12 @@ describe Spree::Subscription do
 
   context "when adding a subscription" do
     it "should be valid if product is subscribable" do
-      subscription = build(:subscription, magazine: create(:subscribable_product))
+      subscription = build(:subscription, product: create(:subscribable_product))
       subscription.should be_valid
     end
 
     it "should not be valid if product is not subscribable" do
-      subscription = build(:subscription, magazine: create(:base_product))
+      subscription = build(:subscription, product: create(:base_product))
       subscription.should_not be_valid
     end
   end
@@ -97,7 +97,7 @@ describe Spree::Subscription do
       renewal = Spree::Subscription.subscribe!(
         email: subscription.email,
         ship_address: subscription.ship_address,
-        magazine: subscription.magazine,
+        product: subscription.product,
         remaining_issues: 5
       )
       renewal.remaining_issues.should == 10
@@ -108,7 +108,7 @@ describe Spree::Subscription do
       renewal = Spree::Subscription.subscribe!(
         email: subscription.email,
         ship_address: new_ship_address,
-        magazine: subscription.magazine,
+        product: subscription.product,
         remaining_issues: 5
       )
       subscription.ship_address.id.should_not == renewal.ship_address.id
@@ -124,8 +124,8 @@ describe Spree::Subscription do
       end
 
       it "should not be created before order completetion" do
-        magazine = order.line_items.first.variant.product
-        subscription = Spree::Subscription.where(magazine_id: magazine.id).first
+        product = order.line_items.first.variant.product
+        subscription = Spree::Subscription.where(product_id: product.id).first
         subscription.should be_nil
       end
     end
@@ -141,7 +141,7 @@ describe Spree::Subscription do
           order.finalize!
         end
 
-        let(:subscription) { Spree::Subscription.where(magazine_id: order.line_items.first.variant.product.id).first }
+        let(:subscription) { Spree::Subscription.where(product_id: order.line_items.first.variant.product.id).first }
 
         it "should not be created on order completetion" do
           subscription.should be_nil
@@ -151,8 +151,8 @@ describe Spree::Subscription do
           order.payments << create(:payment, order: order, amount: order.total)
           # Capture payment
           order.payments.first.capture!
-          magazine = order.line_items.first.variant.product
-          subscription = Spree::Subscription.where(email: order.user.email, magazine_id: magazine.id).first
+          product = order.line_items.first.variant.product
+          subscription = Spree::Subscription.where(email: order.user.email, product_id: product.id).first
           subscription.state.should == "active"
         end
       end
@@ -162,10 +162,10 @@ describe Spree::Subscription do
           # Create a subscription with same user and prooduct
           user = order.user
           product = order.line_items.first.variant.product
-          Spree::Subscription.create(email: user.email, magazine_id: product.id)
+          Spree::Subscription.create(email: user.email, product_id: product.id)
         end
 
-        let(:subscription) { Spree::Subscription.where(magazine_id: order.line_items.first.variant.product.id).first }
+        let(:subscription) { Spree::Subscription.where(product_id: order.line_items.first.variant.product.id).first }
 
         context "before order completion" do
           it "should already exists" do
@@ -183,7 +183,7 @@ describe Spree::Subscription do
             order.finalize!
           end
 
-          let(:subscriptions) { Spree::Subscription.where(magazine_id: order.line_items.first.variant.product.id) }
+          let(:subscriptions) { Spree::Subscription.where(product_id: order.line_items.first.variant.product.id) }
 
           it "should not have to be created as new" do
             subscriptions.count.should == 1

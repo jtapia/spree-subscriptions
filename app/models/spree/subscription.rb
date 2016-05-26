@@ -1,5 +1,5 @@
 class Spree::Subscription < ActiveRecord::Base
-  belongs_to :magazine, class_name: 'Spree::Product'
+  belongs_to :product, class_name: 'Spree::Product'
   belongs_to :ship_address, class_name: 'Spree::Address'
   has_many :shipped_issues
   has_many :issues, through: :shipped_issues
@@ -20,14 +20,14 @@ class Spree::Subscription < ActiveRecord::Base
   end
 
   def self.subscribe!(opts)
-    opts.to_options!.assert_valid_keys(:email, :ship_address, :magazine, :remaining_issues)
+    opts.to_options!.assert_valid_keys(:email, :ship_address, :product, :remaining_issues)
 
-    existing_subscription = self.where(email: opts[:email], magazine_id: opts[:magazine].id).first
+    existing_subscription = self.where(email: opts[:email], product_id: opts[:product].id).first
 
     if existing_subscription
       self.renew_subscription(existing_subscription, opts[:remaining_issues], opts[:ship_address])
     else
-      self.new_subscription(opts[:email], opts[:magazine], opts[:remaining_issues], opts[:ship_address])
+      self.new_subscription(opts[:email], opts[:product], opts[:remaining_issues], opts[:ship_address])
     end
   end
 
@@ -38,7 +38,7 @@ class Spree::Subscription < ActiveRecord::Base
   def ending?
     remaining_issues == 1
   end
-  
+
   def canceled?
     return state.intern == :canceled
   end
@@ -91,10 +91,10 @@ class Spree::Subscription < ActiveRecord::Base
 
   private
 
-  def self.new_subscription(email, magazine, remaining_issues, ship_address)
+  def self.new_subscription(email, product, remaining_issues, ship_address)
     self.create do |s|
       s.email            = email
-      s.magazine_id      = magazine.id
+      s.product_id       = product.id
       s.remaining_issues = remaining_issues
       s.ship_address     = ship_address
     end

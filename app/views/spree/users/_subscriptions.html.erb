@@ -14,7 +14,7 @@
       <tbody>
         <% @subscriptions.each do |subscription| %>
           <tr class="<%= cycle('even', 'odd') %>">
-            <td><%= subscription.magazine.name %></td>
+            <td><%= subscription.product.name %></td>
             <td><%= subscription.ship_address.full_name %></td>
             <td><%= subscription.remaining_issues %></td>
             <td><%= Spree.t(subscription.state, scope: 'subscription_state').titleize %></td>

@@ -1,13 +1,13 @@
 class Spree::Issue < ActiveRecord::Base
-  belongs_to :magazine, class_name: "Spree::Product"
-  belongs_to :magazine_issue, class_name: "Spree::Product"
+  belongs_to :product, class_name: 'Spree::Product'
+  belongs_to :product_issue, class_name: 'Spree::Product'
   has_many :shipped_issues
 
-  delegate :subscriptions, to: :magazine
+  delegate :subscriptions, to: :product
 
   validates :name,
             presence: true,
-            unless: "magazine_issue.present?"
+            unless: "product_issue.present?"
 
   scope :shipped, -> { where("shipped_at IS NOT NULL") }
   scope :unshipped, -> { where("shipped_at IS NULL") }
@@ -16,7 +16,7 @@ class Spree::Issue < ActiveRecord::Base
   scope :unshipped, -> { where("shipped_at IS NULL") }
 
   def name
-    magazine_issue.present? ? magazine_issue.name : read_attribute(:name)
+    product_issue.present? ? product_issue.name : read_attribute(:name)
   end
 
   def ship!
@@ -32,13 +32,13 @@ class Spree::Issue < ActiveRecord::Base
   def shipped?
     !shipped_at.nil?
   end
-    
-  def magazine
+
+  def product
     # override getter method to include deleted products, as per https://github.com/radar/paranoia
     Spree::Product.unscoped { super }
   end
-  
-  def magazine_issue
+
+  def product_issue
     # override getter method to include deleted products, as per https://github.com/radar/paranoia
     Spree::Product.unscoped { super }
   end

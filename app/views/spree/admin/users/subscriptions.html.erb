@@ -12,8 +12,8 @@
 
   <% if @subscriptions.any? %>
     <%# TODO add search interface %>
-    
-    
+
+
     <table class="index responsive" id="listing_subscriptions" data-hook>
       <thead>
         <tr data-hook="admin_subscriptions_index_headers">
@@ -28,7 +28,7 @@
         <% @subscriptions.each do |subscription| %>
           <tr id="<%= spree_dom_id subscription %>" data-hook="admin_subscriptions_index_rows" class="<%= cycle('odd', 'even') %>">
             <td class="align-center spree_subscriptions_table"><% if subscription.user %><%= link_to subscription.user.try(:email), admin_user_path(subscription.user) %><% end %></td>
-            <td class="align-center spree_subscriptions_table"><%= link_to subscription.magazine.name, admin_magazine_issues_path(subscription.magazine) %></td>
+            <td class="align-center spree_subscriptions_table"><%= link_to subscription.product.name, admin_product_issues_path(subscription.product) %></td>
             <td class="align-center spree_subscriptions_table"><%= subscription.remaining_issues %></td>
             <td class="align-center spree_subscriptions_table"><%= Spree.t(subscription.state, scope: 'subscription_state').downcase %></td>
             <td class="actions" data-hook="admin_subscriptions_index_row_actions">

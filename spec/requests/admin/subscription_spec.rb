@@ -14,18 +14,18 @@ describe "Subscription" do
 
     context "editing a subscription" do
       before(:each) do
-        create(:product, name: 'sport magazine', available_on: '2011-01-06 18:21:13:', subscribable: true)
-        create(:product, name: 'web magazine', available_on: '2011-01-06 18:21:13:', subscribable: true)
+        create(:product, name: 'sport product', available_on: '2011-01-06 18:21:13:', subscribable: true)
+        create(:product, name: 'web product', available_on: '2011-01-06 18:21:13:', subscribable: true)
         create(:subscription)
         click_link "Subscriptions"
       end
 
       it "should be edited correctly" do
         within('table#listing_subscriptions tbody tr:nth-child(1)') { click_icon('edit') }
-        select "web magazine", from: "Product"
+        select "web product", from: "Product"
         click_button "Update"
         page.should have_content("successfully updated!")
-        find_field('Product').find('option[selected]').text.should == "web magazine"
+        find_field('Product').find('option[selected]').text.should == "web product"
       end
 
       context "editing customer details" do

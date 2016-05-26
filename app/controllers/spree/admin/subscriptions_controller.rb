@@ -39,7 +39,7 @@ module Spree
       end
 
       def subscription_params
-        params.require(:subscription).permit(:email, :magazine_id, :remaining_issues, :ship_address_attributes, :ship_address)
+        params.require(:subscription).permit(:email, :product_id, :remaining_issues, :ship_address_attributes, :ship_address)
       end
     end
   end

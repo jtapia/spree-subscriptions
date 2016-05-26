@@ -2,7 +2,7 @@ module Spree
   module Admin
     module Products
       class IssuesController < Spree::Admin::BaseController
-        before_filter :load_magazine
+        before_filter :load_product
         before_filter :load_issue, :only => [:show, :edit, :update, :ship, :unship]
         before_filter :load_products, :except => [:show, :index]
 
@@ -10,7 +10,7 @@ module Spree
           if @issue.shipped?
             @product_subscriptions = Subscription.where(id: @issue.shipped_issues.pluck(:subscription_id)).includes(:ship_address)
           else
-            @product_subscriptions = @magazine.subscriptions.eligible_for_shipping.includes(:ship_address)
+            @product_subscriptions = @product.subscriptions.eligible_for_shipping.includes(:ship_address)
           end
           respond_to do |format|
             format.html
@@ -23,13 +23,13 @@ module Spree
         end
 
         def index
-          @issues = Issue.where(magazine_id: @magazine.id)
+          @issues = Issue.where(product_id: @product.id)
         end
 
         def update
           if @issue.update_attributes(issue_params)
             flash[:notice] = Spree.t('issue_updated')
-            redirect_to admin_magazine_issue_path(@magazine, @issue)
+            redirect_to admin_product_issue_path(@product, @issue)
           else
             flash[:error] = Spree.t(:issue_not_updated)
             render action: :edit
@@ -37,13 +37,13 @@ module Spree
         end
 
         def new
-          @issue = @magazine.issues.build
+          @issue = @product.issues.build
         end
 
         def create
-          if (new_issue = @magazine.issues.create(issue_params))
+          if (new_issue = @product.issues.create(issue_params))
             flash[:notice] = Spree.t('issue_created')
-            redirect_to admin_magazine_issue_path(@magazine, new_issue)
+            redirect_to admin_product_issue_path(@product, new_issue)
           else
             flash[:error] = Spree.t(:issue_not_created)
             render :new
@@ -57,7 +57,7 @@ module Spree
           flash[:success] = Spree.t('issue_deleted')
 
           respond_with(@issue) do |format|
-            format.html { redirect_to admin_magazine_issues_path(@issue.magazine) }
+            format.html { redirect_to admin_product_issues_path(@issue.product) }
             format.js  { render_js_for_destroy }
           end
         end
@@ -69,9 +69,9 @@ module Spree
             @issue.ship!
             flash[:notice]  = Spree.t('issue_shipped')
           end
-          redirect_to admin_magazine_issues_path(@magazine, @issue)
+          redirect_to admin_product_issues_path(@product, @issue)
         end
-        
+
         def unship
           if @issue.shipped?
             @issue.unship!
@@ -79,14 +79,13 @@ module Spree
           else
             flash[:error]  = Spree.t('issue_not_shipped')
           end
-          redirect_to admin_magazine_issues_path(@magazine)
+          redirect_to admin_product_issues_path(@product)
         end
 
         private
 
-        def load_magazine
-          @magazine = Product.with_deleted.find_by_slug(params[:magazine_id])
-          @product = @magazine # useful to display product_tab menu
+        def load_product
+          @product = Product.with_deleted.find_by_slug(params[:product_id])
         end
 
         def load_issue
@@ -98,7 +97,7 @@ module Spree
         end
 
         def issue_params
-          params.require(:issue).permit(:name, :published_at, :shipped_at, :magazine, :magazine_issue_id)
+          params.require(:issue).permit(:name, :published_at, :shipped_at, :product, :product_issue_id)
         end
       end
     end

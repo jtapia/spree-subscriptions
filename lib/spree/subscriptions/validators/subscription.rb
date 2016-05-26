@@ -1,7 +1,7 @@
-class SubscriptionValidator < ActiveModel::Validator 
+class SubscriptionValidator < ActiveModel::Validator
   def validate(record)
-    unless record.magazine.subscribable?
-      record.errors[:magazine] << 'Should be a subscribable product'
+    unless record.product.subscribable?
+      record.errors[:product] << 'Should be a subscribable product'
     end
   end
 end

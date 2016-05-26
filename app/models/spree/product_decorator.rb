@@ -1,7 +1,7 @@
 module Spree
   Product.class_eval do
-    has_many :issues, dependent: :destroy, foreign_key: "magazine_id"
-    has_many :subscriptions, foreign_key: "magazine_id"
+    has_many :issues, dependent: :destroy, foreign_key: 'product_id'
+    has_many :subscriptions, foreign_key: 'product_id'
 
     accepts_nested_attributes_for :issues
 

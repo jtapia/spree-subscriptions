@@ -30,7 +30,7 @@ describe 'Issue' do
       end
 
       context 'subscribable products' do
-        let!(:magazine) { create(:subscribable_product) }
+        let!(:product) { create(:subscribable_product) }
 
         before(:each) do
           click_link 'Products'
@@ -40,7 +40,7 @@ describe 'Issue' do
           end
 
           within('table#listing_products tbody tr:nth-child(1)') do
-            click_link magazine.name
+            click_link product.name
           end
         end
 
@@ -49,7 +49,7 @@ describe 'Issue' do
         end
 
         it 'should let view product issues' do
-          issue       = create(:issue, magazine: magazine)
+          issue       = create(:issue, product: product)
           other_issue = create(:issue)
 
           click_link 'Issues'
@@ -63,10 +63,10 @@ describe 'Issue' do
 
     context 'managing an issue' do
       let!(:product_issue) { create(:product, name: 'Issue number 4') }
-      let!(:magazine) { create(:subscribable_product) }
+      let!(:product) { create(:subscribable_product) }
 
       before do
-        visit spree.edit_admin_product_path magazine
+        visit spree.edit_admin_product_path product
       end
 
       context 'creating an issue' do
@@ -78,10 +78,10 @@ describe 'Issue' do
         it 'should create a new issue without associated product' do
           click_link 'Issues'
           click_link 'New issue'
-          fill_in 'Name', with: 'Magazine issue number 4'
+          fill_in 'Name', with: 'product issue number 4'
           click_button 'Create'
           within('[data-hook=admin_product_issue_header]') do
-            page.should have_content 'Magazine issue number 4'
+            page.should have_content 'product issue number 4'
           end
         end
 
@@ -94,7 +94,7 @@ describe 'Issue' do
           end
 
           click_button 'Create'
-          Spree::Issue.last.magazine_issue.name == 'Issue number 4'
+          Spree::Issue.last.product_issue.name == 'Issue number 4'
         end
 
         it 'should not let select subscribable product as associated product' do
@@ -102,14 +102,14 @@ describe 'Issue' do
           click_link 'New issue'
 
           page.should have_xpath(
-            "//*[@id='issue_magazine_issue_id']/option",
+            "//*[@id='issue_product_issue_id']/option",
             count: 2
           )
         end
       end
 
       context 'editing a product issue' do
-        let!(:issue) { create(:issue, magazine: magazine) }
+        let!(:issue) { create(:issue, product: product) }
 
         before do
           click_link 'Issues'
@@ -123,17 +123,17 @@ describe 'Issue' do
         end
 
         it 'should let update an issue' do
-          fill_in 'Name', with: 'Magazine issue number 4'
+          fill_in 'Name', with: 'product issue number 4'
           click_button 'Update'
 
           page.should have_content 'Issue updated!'
-          page.should have_content 'Magazine issue number 4'
+          page.should have_content 'product issue number 4'
         end
       end
 
       context 'showing a product issue' do
-        let!(:issue) { create(:issue, magazine: magazine) }
-        let!(:subscription) { create(:ending_subscription, magazine: magazine) }
+        let!(:issue) { create(:issue, product: product) }
+        let!(:subscription) { create(:ending_subscription, product: product) }
 
         it 'should display the list of subscribers' do
           click_link 'Issues'
@@ -145,9 +145,9 @@ describe 'Issue' do
         end
 
         it 'should display only users subscribed to that issue' do
-          other_magazine = create(:subscribable_product)
+          other_product = create(:subscribable_product)
           other_subscription = create :ending_subscription,
-                                      magazine: other_magazine,
+                                      product: other_product,
                                       email: 'other@email.com'
 
           click_link 'Issues'
@@ -159,9 +159,9 @@ describe 'Issue' do
         end
 
         it 'should display only users that have remaining issues' do
-          other_magazine = create(:subscribable_product)
+          other_product = create(:subscribable_product)
           other_subscription = create :ending_subscription,
-                                      magazine: other_magazine,
+                                      product: other_product,
                                       email: 'other@email.com'
 
           click_link 'Issues'
@@ -175,7 +175,7 @@ describe 'Issue' do
         context 'shipping an issue' do
           before do
             Spree::Subscriptions::Config.use_delayed_job = false
-            (0..5).each { create(:ending_subscription, magazine: magazine) }
+            (0..5).each { create(:ending_subscription, product: product) }
           end
 
           it 'should show listing as "subscribed"' do
@@ -209,7 +209,7 @@ describe 'Issue' do
           context 'after issue is shipped' do
             before do
               issue.ship!
-              (0..5).each { create(:ending_subscription, magazine: magazine) }
+              (0..5).each { create(:ending_subscription, product: product) }
 
               click_link 'Issues'
               within('table.index#listing_issues tbody tr:nth-child(1)') do
