@@ -1,19 +1,33 @@
-<h1><%= Spree.t(:subscription).titleize %> <%= @subscription.id %></h1>
+<h1>
+  <%= Spree.t(:subscription).titleize %> <%= @subscription.id %>
+</h1>
 
 <% content_for :sidebar do %>
-  <div id="subscription_tab_summary" data-hook>
-    <h3 id="subscription_id" data-hook><%= Spree.t(:subscription).titleize %> #<%= @subscription.id %></h3>
-    <h5 id="subscription_status" data-hook><%= Spree.t(:status) %>: <%= Spree.t(@subscription.state, scope: :subscription_state) %></h5>
-    <br class="clear" />
+  <div id='subscription_tab_summary' data-hook>
+    <h3 id='subscription_id' data-hook><%= Spree.t(:subscription).titleize %> #<%= @subscription.id %></h3>
+    <h5 id='subscription_status' data-hook><%= Spree.t(:status) %>: <%= Spree.t(@subscription.state, scope: :subscription_state) %></h5>
+    <br class='clear' />
   </div>
-  <br class="clear" />
+  <br class='clear' />
 
-  <ul class="sidebar" data-hook="admin_subscription_tabs">
+  <aside id='subscription-sidebar' class='main-right-sidebar' data-hook=''>
+    <ul class='sidebar nav nav-pills nav-stacked' data-hook='admin_subscription_tabs'>
       <li<%== ' class="active"' if current == 'Subscription Details' %>>
-      <%= link_to Spree.t(:subscription_details), edit_admin_subscription_url(@subscription) %>
+        <%= link_to edit_admin_subscription_url(@subscription), class: 'icon-link with-tip action-subscription-details' do %>
+          <%= content_tag :span, '', class: 'icon icon-edit' %>
+          <%= content_tag :span, class: 'text' do %>
+            <%= Spree.t(:subscription_details) %>
+          <% end %>
+        <% end %>
       </li>
       <li<%== ' class="active"' if current == 'Customer Details' %>>
-      <%= link_to Spree.t(:customer_details), admin_subscription_customer_url(@subscription) %>
+        <%= link_to admin_subscription_customer_url(@subscription), class: 'icon-link with-tip action-customer-details' do %>
+          <%= content_tag :span, '', class: 'icon icon-edit' %>
+          <%= content_tag :span, class: 'text' do %>
+            <%= Spree.t(:customer_details) %>
+          <% end %>
+        <% end %>
       </li>
     </ul>
+  </aside>
 <% end %>

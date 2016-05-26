@@ -2,40 +2,61 @@
   <%= Spree.t(:listing_subscriptions) %>
 <% end %>
 
-<table class="index" id="listing_subscriptions">
-  <thead>
-    <tr>
-      <th><%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %></th>
-      <th><%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %></th>
-      <th data-hook="admin_subscriptions_index_header_actions"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @subscriptions.each do |subscription| %>
-      <tr>
-        <td><%= subscription.created_at.to_date %></td>
-        <td><%= link_to subscription.id, edit_object_url(subscription) %></td>
-        <td><%= subscription.remaining_issues %></td>
-        <td><%= Spree.t(subscription.state, scope: 'subscription_state').downcase %></td>
-        <td><%= subscription.email %></td>
-        <td><%= subscription.ship_address.firstname %></td>
-        <td><%= subscription.ship_address.lastname %></td>
-        <td class="actions" data-hook="admin_subscriptions_index_row_actions">
-          <%= link_to_edit subscription, no_text: true, class: 'edit' if can?(:edit, subscription)  %>
-          &nbsp;
-          <%= link_to_delete subscription, no_text: true if can?(:delete, subscription) %>
-        </td>
+<% if @collection.any? %>
+  <table class='table' id='listing_brands'>
+    <thead>
+      <tr data-hook='admin_subscriptions_index_headers'>
+        <th>
+          <%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %>
+        </th>
+        <th>
+          <%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %>
+        </th>
+        <th>
+          <%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %>
+        </th>
+        <th>
+          <%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %>
+        </th>
+        <th>
+          <%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %>
+        </th>
+        <th>
+          <%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %>
+        </th>
+        <th>
+          <%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %>
+        </th>
+        <th data-hook='admin_subscriptions_index_header_actions'></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= paginate @subscriptions %>
+    </thead>
 
+    <tbody>
+      <% @subscriptions.each do |subscription| %>
+        <tr id='<%= spree_dom_id subscription %>' data-hook='admin_subscriptions_index_rows' class='<%= cycle('odd', 'even') %>'>
+          <td><%= link_to subscription.id, edit_object_url(subscription) %></td>
+          <td class='align-center'><%= subscription.ship_address.firstname %></td>
+          <td class='align-center'><%= subscription.ship_address.lastname %></td>
+          <td class='align-center'><%= subscription.email %></td>
+          <td class='align-center'><%= subscription.remaining_issues %></td>
+          <td class='align-center'><%= Spree.t(subscription.state, scope: 'subscription_state').downcase %></td>
+          <td class='align-center'><%= subscription.created_at.to_date %></td>
+          <td class='actions actions-2 text-right' data-hook='admin_subscriptions_index_row_actions'>
+            <%= link_to_edit subscription, no_text: true, class: 'edit' if can?(:edit, subscription)  %>
+            &nbsp;
+            <%= link_to_delete subscription, no_text: true if can?(:delete, subscription) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class='alert alert-info no-objects-found'>
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Subscription)) %>
+  </div>
+<% end %>
+
+<%= paginate @subscriptions %>
 
 <% content_for :sidebar_title do %>
   <%= Spree.t(:search) %>

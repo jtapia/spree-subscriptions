@@ -1,0 +1,82 @@
+es:
+  spree:
+    admin:
+      tab:
+        subscriptions: Subscripciones
+      user:
+        subscription_history: Historial Subscripciones
+
+    are_you_sure: Estas seguro?
+    subscription: subscripción
+    subscriptions: subscripciones
+
+    subscription_state:
+      active: activo
+      canceled: cancelado
+
+    confirm_ship: "Enviar este pedido?"
+    confirm_unship: "Regresar este pedido?"
+    creating_issue: "Crear pedido"
+    creating_subscription: "Crear suscripción"
+    customer_details_updated: "Los detalles del usuario han sido actualizados"
+    editing_issue: "Editar pedido"
+    editing_subscription: "Editar subscripción"
+    issue: "pedido"
+    issue_created: "Pedido creado!"
+    issue_not_created: "Pedido no creado!"
+    issue_not_shipped: "Aun no ha sido enviado"
+    issue_not_updated: "Pedido no actualizado!"
+    issue_shipped: "Pedido enviado satisfactoriamente"
+    issue_unshipped: "Pedido regresado satisfactoriamente"
+    issue_updated: "Pedido actualizado!"
+    issues: "Pedidos"
+    issues_number: "Numero de pedidos"
+    my_subscriptions: Mi subscripciones
+    new_issue: Nuevo pedido
+    new_subscription: Nueva subscipción
+    no_resource_found: No se encontrado ninguna %{resource}
+    listing_issues: Pedidos disponibles
+    listing_subscriptions: Subscripciones disponibles
+    pdf: PDF
+    print: imprimir
+    ship: Enviar
+    shipped_to: Enviado a
+    subscribe_call_to_action: Subscribirse ahora
+    subscribed: Subscrito
+    subscription_details: Detalles de la subscripción
+    subscription_ended: Subscripción terminada
+    subscription_ended_for: "Subscripción para %{email} a terminado!"
+    subscription_ending: Subscripción a punto de terminar
+    subscription_ending_for: "Subscripción para %{email} a punto de terminar!"
+    subscription_successfully_created: "Subscripción creado exitosamente!"
+    subscription_successfully_updated: "Subscripción actualizada exitosamente!"
+    unship: "Regresar"
+    you_have_no_subscriptions_yet: "No tienes ninguna subscripción"
+
+    activerecord:
+      attributes:
+        spree/address:
+          firstname: Nombre
+          lastname: Apellido
+        spree/issue:
+          name: Nombre
+          shipped_at: Enviado a
+        spree/product:
+          issues_number: Cantidad de pedidos
+        spree/subscription:
+          created_at: Creado a
+          email: Email
+          id: Id
+          name: Nombre
+          remaining_issues: Pedidos pendientes
+          state: Estatus
+          subscribable: subscripción
+        spree/variant:
+          issues_number: Cantidad de pedidos
+      models:
+        spree/issue:
+          one: Pedido
+          other: Pedidos
+        spree/subscription:
+          one: Subscripción
+          other: Subscripciones
