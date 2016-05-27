@@ -1,0 +1,12 @@
+<div class='col-md-12 clearfix product_issue'>
+  <%= product_image(product) %>
+  <h2><%= Spree.t(:description) %></h2>
+  <%= truncate(product.description, length: 400) %>
+
+  <div class='toolbar' data-hook='admin_issue_show_buttons'>
+    <%= button_link_to Spree.t(:ship), admin_product_issue_ship_path(product, issue), icon: :truck, confirm: Spree.t(:are_you_sure) if !issue.shipped? %>
+    <%= button_link_to Spree.t(:pdf), admin_product_issue_path(product, issue, format: :pdf), icon: 'file-pdf-o' %>
+    <%= button_link_to Spree.t(:unship), admin_product_issue_unship_path(product, issue), icon: :history, confirm: Spree.t(:confirm_unship) if issue == issue.product.issues.shipped.order('shipped_at DESC').first %>
+    <%= button_link_to Spree.t(:delete), admin_product_issue_url(product, issue), icon: :trash, method: :delete if !issue.shipped? %>
+  </div>
+</div>

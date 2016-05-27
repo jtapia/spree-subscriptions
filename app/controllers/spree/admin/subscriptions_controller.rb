@@ -2,6 +2,7 @@ module Spree
   module Admin
     class SubscriptionsController < ResourceController
       before_filter :load_data, except: :index
+      before_filter :load_susbcription_issues, only: :edit
 
       def show
         redirect_to( action: :edit )
@@ -14,17 +15,23 @@ module Spree
       end
 
       def create
-        create_or_update Spree.t("subscription_successfully_created")
+        create_or_update Spree.t('subscription_successfully_created')
       end
 
       def update
-        create_or_update Spree.t("subscription_successfully_updated")
+        create_or_update Spree.t('subscription_successfully_updated')
       end
 
       protected
 
       def load_data
         @products = Product.subscribable.all.map { |product| [product.name, product.id] }
+      end
+
+      def load_susbcription_issues
+        @subscription = Spree::Subscription.find(params[:id])
+        @product = @subscription.product
+        @issues = @subscription.issues
       end
 
       private

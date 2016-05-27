@@ -31,6 +31,7 @@ es:
     issue_unshipped: "Pedido regresado satisfactoriamente"
     issue_updated: "Pedido actualizado!"
     issues: "Pedidos"
+    issues_details: Detalles de Pedidos
     issues_number: "Numero de pedidos"
     my_subscriptions: Mi subscripciones
     new_issue: Nuevo pedido
@@ -49,6 +50,7 @@ es:
     subscription_ended_for: "Subscripción para %{email} a terminado!"
     subscription_ending: Subscripción a punto de terminar
     subscription_ending_for: "Subscripción para %{email} a punto de terminar!"
+    subscription_issues: Pedidos de la Subscripción
     subscription_successfully_created: "Subscripción creado exitosamente!"
     subscription_successfully_updated: "Subscripción actualizada exitosamente!"
     unship: "Regresar"

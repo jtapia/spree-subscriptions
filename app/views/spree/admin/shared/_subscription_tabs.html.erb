@@ -1,7 +1,3 @@
-<h1>
-  <%= Spree.t(:subscription).titleize %> <%= @subscription.id %>
-</h1>
-
 <% content_for :sidebar do %>
   <div id='subscription_tab_summary' data-hook>
     <h3 id='subscription_id' data-hook><%= Spree.t(:subscription).titleize %> #<%= @subscription.id %></h3>
@@ -20,11 +16,21 @@
           <% end %>
         <% end %>
       </li>
+
       <li<%== ' class="active"' if current == 'Customer Details' %>>
         <%= link_to admin_subscription_customer_url(@subscription), class: 'icon-link with-tip action-customer-details' do %>
           <%= content_tag :span, '', class: 'icon icon-edit' %>
           <%= content_tag :span, class: 'text' do %>
             <%= Spree.t(:customer_details) %>
+          <% end %>
+        <% end %>
+      </li>
+
+      <li<%== ' class="active"' if current == 'Shipped Issues' %>>
+        <%= link_to admin_subscription_issues_url(@subscription), class: 'icon-link with-tip action-issues-details' do %>
+          <%= content_tag :span, '', class: 'icon icon-edit' %>
+          <%= content_tag :span, class: 'text' do %>
+            <%= Spree.t(:issues_details) %>
           <% end %>
         <% end %>
       </li>

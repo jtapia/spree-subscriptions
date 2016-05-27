@@ -1,50 +1,13 @@
 <%= render partial: 'spree/admin/shared/product_tabs', locals: { current: 'Issues' } %>
 
-<div data-hook="admin_product_issue_header">
-  <h2><%= @issue.name %></h2>
+<div data-hook='admin_product_issue_header'>
+  <h2><%= @issue.subscription_type %></h2>
 </div>
 
-<% if @issue.product_issue %>
-  <%= render 'product_issue', product: @issue.product_issue %>
-<% end %>
+<div class='row'>
+  <% if @issue.product_issue %>
+    <%= render 'product_issue', product: @issue.product_issue %>
+  <% end %>
 
-<div class="toolbar" data-hook="admin_issue_show_buttons">
-  <%= button_link_to Spree.t(:ship), admin_product_issue_ship_path(@product, @issue), icon: :truck, confirm: Spree.t(:are_you_sure) if !@issue.shipped? %>
-  <%= button_link_to Spree.t(:pdf), admin_product_issue_path(@product, @issue, format: :pdf), icon: 'file-pdf-o' %>
-  <%= button_link_to Spree.t(:unship), admin_product_issue_unship_path(@product, @issue), icon: :history, confirm: Spree.t(:confirm_unship) if @issue == @issue.product.issues.shipped.order('shipped_at DESC').first %>
-  <%= button_link_to Spree.t(:delete), admin_product_issue_url(@product, @issue), icon: :trash, method: :delete if !@issue.shipped? %>
+  <%= render 'product_description', product: @issue.product_issue %>
 </div>
-<br class="clear">
-<br>
-
-<h1><%= @issue.shipped? ? Spree.t(:shipped_to) : Spree.t(:subscribed) %></h1>
-
-<table class="index" id="subscriptions_listing">
-  <thead data-hook="admin_subscriptions_index_headers">
-    <th><%= Spree.t(:email) %></th>
-    <th><%= Spree.t(:first_name) %></th>
-    <th><%= Spree.t(:last_name) %></th>
-    <th><%= Spree.t(:street_address) %></th>
-    <th><%= Spree.t(:zip) %></th>
-    <th><%= Spree.t(:city) %></th>
-    <th><%= Spree.t(:state) %></th>
-    <th><%= Spree.t(:phone) %></th>
-  </thead>
-  <tbody>
-    <% @product_subscriptions.each do |subscription|%>
-      <tr id="<%= spree_dom_id subscription %>" data-hook="admin_subscriptions_index_rows">
-        <td><%= subscription.email %></td>
-        <td><%= subscription.ship_address.firstname %></td>
-        <td><%= subscription.ship_address.lastname %></td>
-        <td>
-          <%= subscription.ship_address.address1 %>
-          <%= raw("</br>#{subscription.ship_address.address2}") if subscription.ship_address.address2.present? %>
-        </td>
-        <td><%= subscription.ship_address.zipcode %></td>
-        <td><%= subscription.ship_address.city %></td>
-        <td><%= subscription.ship_address.state_name %></td>
-        <td><%= subscription.ship_address.phone %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>

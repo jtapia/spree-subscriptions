@@ -6,6 +6,6 @@
 <%= form_for [@product, @issue], url: admin_product_issue_url(@product, @issue) do |f| %>
   <fieldset>
     <%= render 'form', f: f  %>
-    <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    <%= render partial: 'spree/admin/shared/edit_resource_links', locals: { collection_url: admin_product_issues_path(@product) } %>
   </fieldset>
 <% end %>

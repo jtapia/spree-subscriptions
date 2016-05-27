@@ -6,13 +6,13 @@
   <table class='table' id='listing_brands'>
     <thead>
       <tr data-hook='admin_subscriptions_index_headers'>
-        <th><%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %></th>
-        <th><%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %></th>
-        <th><%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %></th>
-        <th><%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %></th>
-        <th><%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %></th>
-        <th><%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %></th>
-        <th><%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th class='text-center'><%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th class='text-center'><%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %></th>
+        <th class='text-center'><%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %></th>
+        <th class='text-center'><%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th class='text-center'><%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th class='text-center'><%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th class='text-center'><%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %></th>
         <th data-hook='admin_subscriptions_index_header_actions'></th>
       </tr>
     </thead>
@@ -20,13 +20,17 @@
     <tbody>
       <% @subscriptions.each do |subscription| %>
         <tr id='<%= spree_dom_id subscription %>' data-hook='admin_subscriptions_index_rows' class='<%= cycle('odd', 'even') %>'>
-          <td><%= link_to subscription.id, edit_object_url(subscription) %></td>
-          <td class='align-center'><%= subscription.ship_address.firstname %></td>
-          <td class='align-center'><%= subscription.ship_address.lastname %></td>
-          <td class='align-center'><%= subscription.email %></td>
-          <td class='align-center'><%= subscription.remaining_issues %></td>
-          <td class='align-center'><%= Spree.t(subscription.state, scope: 'subscription_state').downcase %></td>
-          <td class='align-center'><%= subscription.created_at.to_date %></td>
+          <td class='text-center'><%= link_to subscription.id, edit_object_url(subscription) %></td>
+          <td class='text-center'><%= subscription.ship_address.firstname %></td>
+          <td class='text-center'><%= subscription.ship_address.lastname %></td>
+          <td class='text-center'><%= subscription.email %></td>
+          <td class='text-center'><%= subscription.remaining_issues %></td>
+          <td class='text-center'>
+            <span class="label <% if subscription.state == 'active' %>label-active<% else %>label-invalid<% end %>">
+              <%= Spree.t(subscription.state, scope: 'subscription_state').downcase %>
+            </span>
+          </td>
+          <td class='text-center'><%= subscription.created_at.to_date %></td>
           <td class='actions actions-2 text-right' data-hook='admin_subscriptions_index_row_actions'>
             <%= link_to_edit subscription, no_text: true, class: 'edit' if can?(:edit, subscription)  %>
             &nbsp;

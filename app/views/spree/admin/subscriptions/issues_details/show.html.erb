@@ -1,0 +1,18 @@
+<%= render partial: 'spree/admin/shared/subscription_tabs', locals: { current: 'Shipped Issues' } %>
+
+<% content_for :page_title do %>
+  <%= link_to "#{Spree.t(:subscription).capitalize} #{@subscription.id}", edit_admin_subscription_path(@subscription) %> /
+  <%= Spree.t(:issue) %>
+<% end %>
+
+<div data-hook='admin_subscription_issue_header'>
+  <h2><%= @issue.subscription_type %></h2>
+</div>
+
+<div class='row'>
+  <% if @issue.product_issue %>
+    <%= render partial: 'product_issue', locals: { product: @issue.product_issue, issue: @issue } %>
+  <% end %>
+
+  <%= render partial: 'product_description', locals: { product: @product, issue: @issue, product_subscriptions: @product_subscriptions } %>
+</div>

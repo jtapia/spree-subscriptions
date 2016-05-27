@@ -1,0 +1,64 @@
+<%= render partial: 'spree/admin/shared/subscription_tabs', locals: { current: 'Shipped Issues' } %>
+
+<% content_for :page_title do %>
+  <%= link_to "#{Spree.t(:subscription).capitalize} #{@subscription.id}", edit_admin_subscription_path(@subscription) %> /
+  <%= Spree.t(:subscription_issues) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_issue), new_admin_subscription_issue_url(@subscription), { class: 'btn-success', icon: 'plus', id: 'admin_new_issue' } %>
+<% end if can?(:create, Spree::Issue) %>
+
+<% if @issues.any? %>
+  <table class='index table' id='listing_issues'>
+    <thead>
+      <tr data-hook='admin_issues_index_headers'>
+        <th data-hook='admin_issues_index_header_name'>
+          <%= Spree.t(:name, scope: 'activerecord.attributes.spree/issue') %>
+        </th>
+        <th class='text-center' data-hook='admin_issues_index_header_subscription'>
+          <%= Spree.t(:subscription, scope: 'activerecord.attributes.spree/issue') %>
+        </th>
+        <th class='text-center' data-hook='admin_issues_index_header_shipped_at'>
+          <%= t(:shipped_at, scope: 'activerecord.attributes.spree/issue') %>
+        </th>
+        <th data-hook='admin_issues_index_header_status'>
+          <%= t(:status, scope: 'activerecord.attributes.spree/issue') %>
+        </th>
+
+        <th data-hook='admin_issues_index_header_actions' class='actions'></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @issues.each do |issue| %>
+        <tr id='<%= spree_dom_id issue %>' data-hook='admin_issues_index_rows' class='<%= cycle('odd', 'even') %>'>
+          <td data-hook='admin_issues_index_row_name'>
+            <%= link_to issue.name, admin_subscription_issue_url(@subscription, issue) %>
+          </td>
+          <td class='text-center' data-hook='admin_issues_index_row_subscription'>
+            <%= link_to issue.subscription_type, admin_subscription_url(@subscription) %>
+          </td>
+          <td class='text-center' data-hook='admin_issues_index_row_shipped_at'>
+            <%= issue.shipped? ? issue.shipped_at.to_s(:db) : Spree.t(:issue_not_shipped) %>
+          </td>
+          <td data-hook='admin_issues_index_row_status'>
+            <span class="label label-<% if issue.shipped? %>active<% else %>notice<% end %>">
+              <%= issue.shipped? ? Spree.t(:issue_shipped) : Spree.t(:issue_not_shipped) %>
+            </span>
+          </td>
+          <td class='actions actions-4 text-right' data-hook='admin_issues_index_row_actions'>
+            <%= link_to_with_icon :truck, Spree.t(:ship), admin_subscription_issue_ship_path(@subscription, issue), { confirm: Spree.t(:confirm_ship), class: 'btn btn-primary btn-sm icon-link action-edit' } if !issue.shipped? %>
+            <%= link_to_with_icon :history, Spree.t(:unship), admin_subscription_issue_unship_path(@subscription, issue), { confirm: Spree.t(:confirm_unship), class: 'btn btn-primary btn-sm icon-link action-edit' } if issue == @issues.shipped.order('shipped_at DESC').first %>
+            <%= link_to_with_icon :edit,  Spree.t(:edit), edit_admin_subscription_issue_url(@subscription, issue), { no_text: true, class: 'btn btn-primary btn-sm icon-link action-edit' } if !issue.shipped? %>
+            <%= link_to_with_icon :trash,  Spree.t(:delete), admin_subscription_issue_url(@subscription, issue), { method: :delete, no_text: true, class: 'btn btn-danger btn-sm delete-resource icon-link action-delete' } if !issue.shipped? %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class='alert alert-info no-objects-found'>
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Issue)) %>
+  </div>
+<% end %>

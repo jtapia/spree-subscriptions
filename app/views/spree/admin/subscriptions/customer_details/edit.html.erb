@@ -3,9 +3,14 @@
 <%= render partial: 'spree/admin/shared/subscription_tabs', locals: { current: 'Customer Details' } %>
 <% render partial: 'spree/admin/shared/error_messages', locals: { target: @subscription } %>
 
+<% content_for :page_title do %>
+  <%= link_to "#{Spree.t(:subscription).capitalize} #{@subscription.id}", edit_admin_subscription_path(@subscription) %> /
+  <%= Spree.t(:customer_details) %>
+<% end %>
+
 <%= form_for @subscription, url: admin_subscription_customer_url(@subscription) do |f| %>
   <fieldset>
     <%= render 'form', f: f  %>
-    <%= render partial: 'spree/admin/shared/edit_resource_links', locals: { collection_url: admin_subscription_customer_path(@subscription) }%>
+    <%= render partial: 'spree/admin/shared/edit_resource_links', locals: { collection_url: admin_subscription_customer_path(@subscription) } %>
   </fieldset>
 <% end %>

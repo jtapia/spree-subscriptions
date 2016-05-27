@@ -31,6 +31,7 @@ en:
     issue_unshipped: "Issue successfully unshipped"
     issue_updated: "Issue updated!"
     issues: "Issues"
+    issues_details: Issues Details
     issues_number: "Issues number"
     my_subscriptions: My subscriptions
     new_issue: New issue
@@ -48,6 +49,7 @@ en:
     subscription_ended_for: "Subscription for %{email} has ended!"
     subscription_ending: Subscription ending
     subscription_ending_for: "Subscription for %{email} is ending!"
+    subscription_issues: Subscription Issues
     subscription_successfully_created: "Subscription successfully created!"
     subscription_successfully_updated: "Subscription successfully updated!"
     unship: "Unship"

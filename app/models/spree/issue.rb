@@ -15,8 +15,8 @@ class Spree::Issue < ActiveRecord::Base
   scope :shipped, -> { where("shipped_at IS NOT NULL") }
   scope :unshipped, -> { where("shipped_at IS NULL") }
 
-  def name
-    product_issue.present? ? product_issue.name : read_attribute(:name)
+  def subscription_type
+    product_issue.name
   end
 
   def ship!

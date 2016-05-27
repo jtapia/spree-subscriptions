@@ -1,0 +1,16 @@
+<%= csrf_meta_tags %>
+
+<%= render partial: 'spree/admin/shared/subscription_tabs', locals: { current: 'Shipped Issues' } %>
+<%= render partial: 'spree/shared/error_messages', locals: { target: @subscription } %>
+
+<% content_for :page_title do %>
+  <%= link_to "#{Spree.t(:subscription).capitalize} #{@subscription.id}", edit_admin_subscription_path(@subscription) %> /
+  <%= Spree.t(:new_issue) %>
+<% end %>
+
+<%= form_for [@subscription, @issue], url: admin_subscription_issues_path(@subscription), method: :post do |f| %>
+  <fieldset>
+    <%= render 'form', f: f  %>
+    <%= render 'spree/admin/shared/new_resource_links', collection_url: admin_subscription_issues_path(@subscription) %>
+  </fieldset>
+<% end %>

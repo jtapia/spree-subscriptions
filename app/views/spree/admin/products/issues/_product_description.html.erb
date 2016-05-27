@@ -1,0 +1,38 @@
+<div class='col-md-12'>
+  <h2>
+    <%= @issue.shipped? ? Spree.t(:shipped_to) : Spree.t(:subscribed) %>
+  </h2>
+
+  <table class='index table' id='listing_subscriptions'>
+    <thead>
+      <tr data-hook='admin_subscriptions_index_headers'>
+        <th><%= Spree.t(:email) %></th>
+        <th><%= Spree.t(:first_name) %></th>
+        <th><%= Spree.t(:last_name) %></th>
+        <th><%= Spree.t(:street_address) %></th>
+        <th><%= Spree.t(:zip) %></th>
+        <th><%= Spree.t(:city) %></th>
+        <th><%= Spree.t(:state) %></th>
+        <th><%= Spree.t(:phone) %></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @product_subscriptions.each do |subscription|%>
+        <tr id='<%= spree_dom_id subscription %>' data-hook='admin_subscriptions_index_rows'>
+          <td class='align-center'><%= subscription.email %></td>
+          <td class='align-center'><%= subscription.ship_address.firstname %></td>
+          <td class='align-center'><%= subscription.ship_address.lastname %></td>
+          <td class='align-center'>
+            <%= subscription.ship_address.address1 %>
+            <%= raw("</br>#{subscription.ship_address.address2}") if subscription.ship_address.address2.present? %>
+          </td>
+          <td class='align-center'><%= subscription.ship_address.zipcode %></td>
+          <td class='align-center'><%= subscription.ship_address.city %></td>
+          <td class='align-center'><%= subscription.ship_address.state_name %></td>
+          <td class='align-center'><%= subscription.ship_address.phone %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

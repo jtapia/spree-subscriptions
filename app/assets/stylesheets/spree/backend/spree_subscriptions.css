@@ -1,3 +1,19 @@
 /*
  *= require spree/backend
 */
+
+.toolbar {
+  .btn-default {
+    font-size: 14px;
+    width: 100px;
+  }
+
+  form {
+    width: 100px;
+    display: inline-block;
+
+    button {
+      width: 120px;
+    }
+  }
+}
