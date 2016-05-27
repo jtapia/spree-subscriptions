@@ -7,7 +7,7 @@ class Spree::Issue < ActiveRecord::Base
 
   validates :name,
             presence: true,
-            unless: "product_issue.present?"
+            unless: 'product_issue.present?'
 
   scope :shipped, -> { where("shipped_at IS NOT NULL") }
   scope :unshipped, -> { where("shipped_at IS NULL") }

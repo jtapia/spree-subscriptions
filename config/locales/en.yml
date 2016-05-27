@@ -23,6 +23,7 @@ en:
     editing_subscription: "Edit subscription"
     issue: "issue"
     issue_created: "Issue created!"
+    issue_name: Issue Name (Optional)
     issue_not_created: "Issue not created!"
     issue_not_shipped: "Not yet shipped"
     issue_not_updated: "Issue not updated!"

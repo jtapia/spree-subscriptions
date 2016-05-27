@@ -1,20 +1,11 @@
-<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: 'Issues' } %>
-
 <%= csrf_meta_tags %>
 
-<div data-hook="admin_product_issue_edit_header">
-  <h2><%= Spree.t("editing_issue") %></h2>
-  <%= render partial: 'spree/shared/error_messages', locals: { target: @product } %>
-</div>
+<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: 'Issues' } %>
+<%= render partial: 'spree/shared/error_messages', locals: { target: @product } %>
 
-<div data-hook="admin_product_issue_edit_form">
-  <div id="issue-form-wrapper">
-    <%= form_for [@product, @issue], url: admin_product_issue_url(@product, @issue) do |f| %>
-      <%= render 'form', f: f  %>
-
-      <p class="form-buttons" data-hook="buttons">
-     	  <%= button Spree.t(:update) %>
-      </p>
-    <% end %>
-  </div>
-</div>
+<%= form_for [@product, @issue], url: admin_product_issue_url(@product, @issue) do |f| %>
+  <fieldset>
+    <%= render 'form', f: f  %>
+    <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+  </fieldset>
+<% end %>

@@ -1,11 +1,19 @@
-<fieldset>
-  <%= f.field_container :name do %>
-    <%= f.label :name, "Issue Name (Optional)" %>
-    <%= f.text_field :name, class: 'fullwidth' %>
-  <% end %>
+<div class='row' data-hook='admin_product_issue_edit_form'>
+  <div id='issue-form-wrapper'>
 
-  <%= f.field_container :product_issue_id do %>
-    <%= f.label :product_issue_id, Spree.t(:product) %>
-    <%= f.collection_select(:product_issue_id, @products, :id, :name, { include_blank: true }, { class: 'select2 fullwidth' }) %>
-  <% end %>
-</fieldset>
+    <div class='col-md-6'>
+      <%= f.field_container :name do %>
+        <%= f.label :name, Spree.t(:issue_name) %>
+        <%= f.text_field :name, class: 'form-control' %>
+      <% end %>
+    </div>
+
+    <div class='col-md-6'>
+      <%= f.field_container :product_issue_id do %>
+        <%= f.label :product_issue_id, Spree.t(:product) %>
+        <%= f.collection_select :product_issue_id, @products, :id, :name, { include_blank: true }, { class: 'select2' } %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

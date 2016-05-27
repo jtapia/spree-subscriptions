@@ -6,27 +6,13 @@
   <table class='table' id='listing_brands'>
     <thead>
       <tr data-hook='admin_subscriptions_index_headers'>
-        <th>
-          <%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %>
-        </th>
-        <th>
-          <%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %>
-        </th>
-        <th>
-          <%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %>
-        </th>
-        <th>
-          <%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %>
-        </th>
-        <th>
-          <%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %>
-        </th>
-        <th>
-          <%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %>
-        </th>
-        <th>
-          <%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %>
-        </th>
+        <th><%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th><%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %></th>
+        <th><%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %></th>
+        <th><%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th><%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th><%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %></th>
+        <th><%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %></th>
         <th data-hook='admin_subscriptions_index_header_actions'></th>
       </tr>
     </thead>

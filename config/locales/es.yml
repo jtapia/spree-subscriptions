@@ -23,6 +23,7 @@ es:
     editing_subscription: "Editar subscripción"
     issue: "pedido"
     issue_created: "Pedido creado!"
+    issue_name: Nombre del pedido (Optional)
     issue_not_created: "Pedido no creado!"
     issue_not_shipped: "Aun no ha sido enviado"
     issue_not_updated: "Pedido no actualizado!"
